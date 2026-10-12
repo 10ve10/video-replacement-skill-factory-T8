@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "name": "video-replacement-skill-factory",
+  "version": "1.2.12",
+  "offline_tests_passed": 99,
+  "cloud_generation_performed": true,
+  "files": {
+    "agents/openai.yaml": "f64b29a95cc69d417bcf7ec0d6546e20f08b7a39f5c4b63e137042d308a79721",
+    "assets/backend-profiles.json": "920c7d9b70fbc5625fc9aa0ee82187d8ce7c1b6129c5e30d0ac7f2861135a519",
+    "features.json": "fba649ff6dca45f4589142564e5a10e2c9e732b100c9f9bc03150855f0ff81e2",
+    "meta.json": "48e08207fb958520386e69f90d247ffedb9097a890d16938a07989454b19dfc7",
+    "references/backends.md": "fc944b1bf78d91f467e61e95497317801ee33bc7272fa4ab80b882c83da55d40",
+    "references/quality-and-repair.md": "7303453d561e68e03dfccdb797d6a0a0f6c772771d381e9846fdad1387857fcc",
+    "references/schemas.md": "6790fde0bd24bad46e2712a9ea0ae84c0cd4245ec59ea00a3bfe87bca3ce5252",
+    "references/workflow.md": "ec3a3b230383e35426cdda1257ffd961f21e0af8a9242ea4499c5dd199c30756",
+    "scripts/factory.py": "873131eca324217537a494671f32f619457facf5f4e40a373f17ff6722a7a5f5",
+    "scripts/media.py": "8d7beb8a7bd916a4e8707b8605404a3575cb585e904642112a3d7e236bddf279",
+    "scripts/rh_runner.py": "e9112b013aa291046f45997f4f8199128cfd113cef542bcc5cadbd006165cd13",
+    "scripts/test_factory.py": "612e42f30407d55f328ba6e6d11126db33518ce3d07ac443aa816e9cf8e06e96",
+    "scripts/test_runner.py": "4391dda2c4fbaf75147f14f57d081f052cb619493100cc670a21365def5586e2",
+    "SKILL.md": "05229d0c468bc8b4f4698cf13eb38ec999aa58f6083b768b97fd1a8679e7712b",
+    "README.md": "f316d40ee39cbc321751ac705f34c7cd402afbc29cbf57f24f81b4a815d92e9d",
+    "AGENTS.md": "0f6c0fd88e9641075a2661f979bc618adf1f42a43442f65d5d09c1b330892905"
+  },
+  "post_update_template_checks": 3,
+  "cloud_visual_quality_verified": true,
+  "media_and_template_tests": 63,
+  "runner_tests": 36,
+  "cloud_visual_quality_scope": {
+    "source_sha256": "75f4a28f357bdac5dc224141eefd857a95d5852cc4fca52ad28efac0046231b1",
+    "final_sha256": "7edb5f17fef803f615d93139b3df2232e5bbdc960c79189479bda8f97e578c61",
+    "frames": 294,
+    "seconds": 12.25,
+    "rendered_with": "1.2.10",
+    "scope": "One actually reviewed photographic two-person film; future cases and new identities still require actual review."
+  }
+}

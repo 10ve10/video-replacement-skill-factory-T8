@@ -1,0 +1,116 @@
+{
+  "name": "video-replacement-skill-factory",
+  "version": "1.2.12",
+  "created_at": "2026-10-11",
+  "purpose": "Deliver a character replacement film and a standalone reusable skill for each new source video.",
+  "schema_version": 1,
+  "research": {
+    "bilateral_rounds": 20,
+    "completed": true
+  },
+  "runtime": {
+    "python": ">=3.10",
+    "media_libraries": [
+      "PyAV",
+      "Pillow"
+    ],
+    "independent_decode": "ffmpeg",
+    "default_account_alias": "default",
+    "result_recovery": "curl, verified HTTPS DNS consensus for the specifically observed COS host; no system DNS/TLS changes"
+  },
+  "configuration": {
+    "backend_profiles": "assets/backend-profiles.json",
+    "default_global_concurrency": 3,
+    "visual_retry_limit": null,
+    "consecutive_technical_failure_limit": 3,
+    "credentials": "CODEX_HOME/private/r2va-character-replacement/api_key.txt",
+    "ledger": "CODEX_HOME/private/video-replacement-skill-factory/tasks.sqlite",
+    "dedicated_skill_naming": {
+      "display_language": "zh-CN",
+      "stable_id": "r2va-video-<source-sha-prefix>",
+      "cli": "build-skill --display-name",
+      "scope": "new source-specific skills; existing user names preserved"
+    }
+  },
+  "validation": {
+    "cloud_generation_performed": true,
+    "cloud_visual_quality_verified": true,
+    "offline_tests": "scripts/test_factory.py and scripts/test_runner.py",
+    "offline_test_count": 99,
+    "media_and_template_tests": 63,
+    "runner_tests": 36,
+    "independent_forward_test_completed": true,
+    "independent_defect_rechecks_passed": 2,
+    "post_update_template_checks": 3,
+    "preroll_preserves_source_owners": true,
+    "production_trial_status": "First complete 12.25-second photographic film, final review guards, canonical ready installation and ZIP independent reuse completed. This1.2.11 update changes naming and reuse guidance; it submits no new generation.",
+    "source_time_scale_verified_offline": true,
+    "cloud_pilot_visual_verified": true,
+    "automatic_download_recovery_tests": 8,
+    "independent_download_rechecks": 28,
+    "zip_extract_subprocess_reuse_verified": true,
+    "source_template_neutralization_verified": true,
+    "window_identity_override_isolation_verified": true,
+    "final_report_contract_verified_offline": true,
+    "known_task_failed_busy_keeps_original_id_verified_offline": true,
+    "current_release_factory_tests": 63,
+    "unchanged_runner_tests_carried_from": "1.2.10",
+    "chinese_display_name_cli_zip_subprocess_verified": true,
+    "cloud_visual_quality_scope": {
+      "source_sha256": "75f4a28f357bdac5dc224141eefd857a95d5852cc4fca52ad28efac0046231b1",
+      "final_sha256": "7edb5f17fef803f615d93139b3df2232e5bbdc960c79189479bda8f97e578c61",
+      "frames": 294,
+      "seconds": 12.25,
+      "rendered_with": "1.2.10",
+      "scope": "One actually reviewed photographic two-person film; future cases and new identities still require actual review."
+    }
+  },
+  "source_of_methods": "r2va-character-replacement; verified local production repairs; official MiniMax/RunningHub reference contracts",
+  "documentation_updates": [
+    "Cross-style photographic identity guides when keeping source live action",
+    "Separate short reaction ownership; explicit replacement rather than extra characters",
+    "TLS-preserving result download recovery",
+    "Link source-specific constraints in generated skills",
+    "Opening shot starts at zero while buffered source events remain shifted",
+    "Run-specific image-edited opening guide in excluded preroll, exact source-pose review and cache version binding",
+    "Explicit queue/resource busy waiting without retry-count exhaustion; accepted or uncertain jobs never reposted",
+    "Standard H3 model permission denial scoped to account and current private key fingerprint",
+    "Opening guides require whole-frame foreground scale and occlusion comparison with native source",
+    "Timing repairs explicitly retain verified intermediate source action phases",
+    "Opening-guide visible iris/eye/jaw checks against current identity, and actual intermediate source movement rather than artificial pose holding",
+    "Local candidate composites retain parent signatures and per-frame provenance; seams and identity require new review",
+    "Lossless intermediate-media claims require complete decoded RGB/PTS proof; raw RGB fallback on discrepancy",
+    "Source motion events distinguish beginning, completion and sustained state using actual neighboring native source frames",
+    "Distinct parallel repair hypotheses share one account recovery dispatcher, immutable candidate records and the global concurrency cap",
+    "Conditional explicit source-time dilation: derived video/audio/event clocks share the same scale; original final PTS/audio and per-source-owner mapping retained; actual projection and visual review remain required",
+    "Self-contained Transport result-download recovery with live independent HTTPS DNS consensus, original hostname/SNI/certificate verification, full decode and atomic promotion; six offline negative/positive tests.",
+    "Independent UUID partial downloads and atomic no-overwrite candidate promotion; actual two-worker forward checks. DNS documentation accurately filters private answers before public consensus.",
+    "Ready guard applies to original production contract before source-neutral analysis copying; freeform run review_notes excluded from public template.",
+    "ZIP source portability verifies actual SHA/size and binds copied new-run signature; normal run source signature stays strict.",
+    "Current-window complete identity overrides bind only that input and derived contract; exact slot coverage and compiler label validation; real-media six-window isolation tests.",
+    "Actual native tool display budget, fixed-wide duplicate/cut diagnosis, and same-source continuous seam topknot/clothing/contact review with reviewed prior-window opening guide.",
+    "Final guard binds actual complete decoded final report and source canvas/PTS/audio contract; eight meaningful real-media regression groups.",
+    "Correct opening guide does not prove every target identity/outfit persisted in actual video; observed leakage rejects candidate, freezes other accepted windows and receives window-local positive appearance repair.",
+    "Known task query FAILED with explicit busy code retains original state/taskId/account slot, receipt and at-least60second wait; no repeated POST. defer_submission rejects known IDs; actual offline regression.",
+    "Actual synchronized gesture delay distinguishes correct context/prefix/derived/owner clocks from generated action lag; window-local measured motion-phase repair preserves other accepted inputs and never shifts owners.",
+    "Every new dedicated skill has a Chinese source-content display/search title in description, heading, UI metadata and manifest; the exact snapshot enters the ZIP. Stable ASCII source identity remains unchanged.",
+    "Chinese --display-name build CLI with one-line validation, Chinese fallback for hash filenames, duplicate-source preservation and draft-ready title inheritance; five new real-media package/subprocess regressions.",
+    "Reuse known source analysis and bound successful-window reviews; resume known tasks after restart; diagnose input, source phase, guide, clock and permissions before targeted retries. Initial20round factory research is not repeated by default.",
+    "Dedicated GitHub repository and continuing factory-only publication route; README registration/social links, forbidden ROADMAP/credentials, manifest whitelist and outgoing-commit guard recorded."
+  ],
+  "publishing": {
+    "repository": "https://github.com/T8mars/video-replacement-skill-factory-T8",
+    "scope": "video-replacement-skill-factory only",
+    "future_factory_updates_use_this_repository": true,
+    "default_branch": "main",
+    "prohibited": [
+      "ROADMAP.MD at any path/case",
+      "API keys and credentials",
+      "other skills",
+      "generated r2va-video skills",
+      "production media and private task data"
+    ],
+    "checks": "Manifest whitelist + publish-policy + secret scan + all outgoing Git commits",
+    "local_checkout_record": "CODEX_HOME/private/video-replacement-skill-factory/publishing.json"
+  }
+}

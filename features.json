@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "features": [
+    {
+      "id": "source-facts",
+      "status": "implemented",
+      "scope": "Complete real decode, rational source PTS, role/shot/event contracts and evidence; visual facts require Codex review."
+    },
+    {
+      "id": "prompt-compiler",
+      "status": "implemented",
+      "scope": "Neutral role placeholders, local reference binding and six-section English rendering; no artificial word limit."
+    },
+    {
+      "id": "frame-ownership",
+      "status": "implemented",
+      "scope": "Exact source coverage, context/padding excluded, candidate output-axis mapping and current-version review guards."
+    },
+    {
+      "id": "source-time-assembly",
+      "status": "implemented",
+      "scope": "CFR/VFR source PTS and final-frame duration; source display aspect/color; one high-quality encoding."
+    },
+    {
+      "id": "source-audio",
+      "status": "implemented",
+      "scope": "Silent output remains silent; compatible original tracks remux with packet payload, timing, language and disposition."
+    },
+    {
+      "id": "global-runner",
+      "status": "implemented-offline-verified",
+      "scope": "Private account-wide SQLite cap3, uncertain POST protection, recovery-only downloads and persistent stop/cooldown."
+    },
+    {
+      "id": "per-video-skill",
+      "status": "implemented",
+      "scope": "Original source assets, neutral facts and self-contained scripts; SHA dedup, staged install journal, versioned upgrade and verified ZIP."
+    },
+    {
+      "id": "cloud-quality",
+      "status": "requires-production-case-review",
+      "scope": "Authorized first production window is reviewed before batch; documented reference count is not evidence of identity fidelity."
+    },
+    {
+      "id": "visual-judgment",
+      "status": "codex-orchestrated",
+      "scope": "Actual dynamic viewing and native risk-frame review; no fabricated automatic identity score or visual pass."
+    },
+    {
+      "id": "rotation-and-time-projection",
+      "status": "implemented-offline-verified",
+      "scope": "90/180/270 display normalization with SAR, explicit CFR/VFR reference projection and pending review of sampling loss."
+    },
+    {
+      "id": "passthrough-and-window-routing",
+      "status": "implemented-offline-verified",
+      "scope": "Target-free source windows bypass cloud generation; one/two subject legacy routes choose a reviewed pilot per route."
+    },
+    {
+      "id": "reusable-package",
+      "status": "implemented-offline-verified",
+      "scope": "Real dedicated-script subprocess reuse; Python caches excluded; manifest whitelist and current-file SHA enforced."
+    },
+    {
+      "id": "explicit-generated-preroll",
+      "status": "implemented-offline-verified",
+      "scope": "Optional source-opening hold, shifted prompt/video/derived-audio and owner map; original source frames and final PTS/audio retained; requires current visual review."
+    },
+    {
+      "id": "reviewed-opening-guide",
+      "status": "implemented-offline-verified",
+      "scope": "Run-specific corrected source-pose guide only in excluded preroll, current image/source/signature review; unmodified owned source actions; identity guide excluded from reusable template."
+    },
+    {
+      "id": "queue-busy-recovery",
+      "status": "implemented-offline-verified",
+      "scope": "No-task explicit415/421/429/1003/1010/1011 rejection waits at least60seconds and retries indefinitely. Known-task query busy, including statusFAILED, retains original state/ID/slot/receipt and queries after60seconds without repeatedPOST or failure-count exhaustion. defer_submission rejects known IDs;804/813 and uncertain POST never repost."
+    },
+    {
+      "id": "model-key-permission-routing",
+      "status": "implemented-offline-verified",
+      "scope": "Explicit1014 with no task blocks standard model submissions for the same account/key fingerprint across restart; legacy app and known-task recovery remain available."
+    },
+    {
+      "id": "detailed-guide-and-repair-review",
+      "status": "codex-orchestrated",
+      "scope": "Current visible iris/eye/jaw review; source intermediate motion phases; local-composite per-frame provenance/seam checks; actual decoded RGB/PTS proof for intermediate encoding. These are review requirements, not an automatic quality guarantee."
+    },
+    {
+      "id": "motion-phase-and-parallel-review",
+      "status": "codex-orchestrated",
+      "scope": "Measured transition/completion/hold events; distinct candidate hypotheses; single recovery dispatcher. No automatic visual approval."
+    },
+    {
+      "id": "explicit-source-time-scale",
+      "status": "implemented-offline-verified",
+      "scope": "Optional1..4 rational source motion/audio/event dilation with cache binding and original final PTS/audio; four actual-media tests. One current2x continuous pilot accepted after native/actual-speed source-phase comparison; no universal quality guarantee."
+    },
+    {
+      "id": "automatic-known-result-https-recovery",
+      "status": "implemented-offline-verified",
+      "scope": "Live Google/Cloudflare public IPv4 agreement only for the actually observed COS host, original HTTPS/SNI/certificates, full ffmpeg decode and atomic result promotion; no new generation."
+    },
+    {
+      "id": "portable-neutral-source-template",
+      "status": "implemented-offline-verified",
+      "scope": "Original ready guard before neutral copy; freeform run notes excluded; actual ZIP extract and compiled-script independent instantiate, SHA/size integrity and strict new-run signature tests."
+    },
+    {
+      "id": "current-window-identity-overrides",
+      "status": "implemented-offline-verified",
+      "scope": "Complete exact current-slot identity dictionaries; compiler labels rejected; local input/cache digest binding; actual six-window test leaves other five inputs unchanged; not a visual quality verdict."
+    },
+    {
+      "id": "actual-final-technical-report-contract",
+      "status": "implemented-offline-verified",
+      "scope": "Current SHA/size/mtime bound complete actual decoded report; source display canvas/SAR/color/normalized rotation, every source PTS and duration, original packet and audio stream contract; eight new real-media tests. Visual approval remains actual Codex observation."
+    },
+    {
+      "id": "chinese-source-skill-names",
+      "status": "implemented-offline-verified",
+      "scope": "Chinese build CLI title stored in entry/description/UI/manifest/ZIP; hash filename fallback, unchanged stable source id, preserved reused names and inherited ready revision title."
+    },
+    {
+      "id": "bound-production-reuse",
+      "status": "codex-orchestrated",
+      "scope": "Reuse same-SHA measured source facts; resume known task IDs; retain current unchanged passed reviews; repair only failed windows and affected seams. New identities/outputs receive actual QA; no repeated factory research by default."
+    }
+  ]
+}
