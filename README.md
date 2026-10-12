@@ -25,7 +25,7 @@
 
 ## 安装与运行环境
 
-需要 Codex 的本地技能能力、Python 3.10+、PyAV、Pillow，以及 PATH 中的 `ffmpeg` / `ffprobe`。运行时路径可按自己的机器设置，媒体命令支持 `--deps`。Windows 遇到已证实的解码差异时可使用 `--scalar-cpu`，详见技能文档。
+需要 Codex 的本地技能能力、Python 3.10+、PyAV、Pillow，以及 PATH 中的 `ffmpeg` / `ffprobe`。离线音频回归还需要 NumPy，已列入requirements.txt。运行时路径可按自己的机器设置，媒体命令支持 `--deps`。Windows 遇到已证实的解码差异时可使用 `--scalar-cpu`，详见技能文档。
 
 PowerShell 安装到个人技能目录：
 
