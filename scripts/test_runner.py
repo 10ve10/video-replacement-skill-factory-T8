@@ -10,7 +10,7 @@ import tempfile
 import unittest
 import urllib.error
 from unittest.mock import patch
-from rh_runner import Ledger, Runner, Transport, ApiFailure, sha, preflight, OBSERVED_RESULT_HOST
+from rh_runner import Ledger, Runner, Transport, ApiFailure, sha, preflight, OBSERVED_RESULT_HOST, legacy_resolution_nodes, same_profile_route
 
 
 class Clock:
@@ -68,7 +68,60 @@ class RunnerTests(unittest.TestCase):
         self.tmp.cleanup()
     def submit(self, fake):
         return Runner(self.ledger, fake).submit_one(self.project, self.entry, self.validate)
+    def test_explicit_portrait_resolution_reaches_immutable_request(self):
+        self.entry['profile']['resolution_selector']={'aspect_ratio':'9:16 (Portrait Widescreen)','megapixels':2}
+        aid=self.submit(Fake())
+        request=json.loads(self.ledger.row(aid)['request'])
+        nodes=request['body']['nodeInfoList']
+        self.assertIn({'nodeId':'115','fieldName':'aspect_ratio','fieldValue':'9:16 (Portrait Widescreen)'},nodes)
+        self.assertIn({'nodeId':'115','fieldName':'megapixels','fieldValue':'2'},nodes)
+        self.assertEqual(next(n['fieldValue'] for n in nodes if n['nodeId']=='326'),'22')
+    def test_unset_resolution_preserves_existing_request(self):
+        aid=self.submit(Fake())
+        request=json.loads(self.ledger.row(aid)['request'])
+        self.assertFalse(any(n['nodeId']=='115' for n in request['body']['nodeInfoList']))
+        self.assertTrue(same_profile_route(self.entry['profile'],self.ledger.row(aid)['request']))
+    def test_both_published_aspects_reach_immutable_request(self):
+        self.entry['profile']['resolution_selector']={'aspect_ratio':'9:16 (Portrait Widescreen)','megapixels':2,'aspect_node_ids':['115','214']}
+        aid=self.submit(Fake());raw=self.ledger.row(aid)['request'];nodes=json.loads(raw)['body']['nodeInfoList']
+        self.assertEqual({n['nodeId'] for n in nodes if n['fieldName']=='aspect_ratio'},{'115','214'})
+        self.assertTrue(all(n['fieldValue']=='9:16 (Portrait Widescreen)' for n in nodes if n['fieldName']=='aspect_ratio'))
+        self.assertTrue(same_profile_route(self.entry['profile'],raw))
+        self.entry['profile']['resolution_selector'].pop('aspect_node_ids')
+        self.assertFalse(same_profile_route(self.entry['profile'],raw))
+    def test_new_second_selector_does_not_inherit_first_selector_pilot(self):
+        self.entry['profile']['resolution_selector']={'aspect_ratio':'9:16 (Portrait Widescreen)','megapixels':2}
+        aid=self.submit(Fake());raw=self.ledger.row(aid)['request']
+        self.entry['profile']['resolution_selector']['aspect_node_ids']=['214','115']
+        self.assertFalse(same_profile_route(self.entry['profile'],raw))
+    def test_invalid_aspect_node_lists_never_submit(self):
+        for ids in ([],['214'],['115','115'],['115','arbitrary'],'115',[115],['115','214','214']):
+            with self.subTest(ids=ids):
+                self.entry['profile']['resolution_selector']={'aspect_ratio':'9:16 (Portrait Widescreen)','megapixels':2,'aspect_node_ids':ids}
+                fake=Fake()
+                with self.assertRaises(ValueError):self.submit(fake)
+                self.assertEqual(fake.submits,0)
+    def test_second_selector_cannot_be_sent_to_unverified_dual_app(self):
+        self.entry['profile'].update({'app_id':'2107845954833907713','resolution_selector':{'aspect_ratio':'9:16 (Portrait Widescreen)','megapixels':2,'aspect_node_ids':['115','214']}})
+        fake=Fake()
+        with self.assertRaisesRegex(ValueError,'only documented'):self.submit(fake)
+        self.assertEqual(fake.submits,0)
+    def test_resolution_route_does_not_inherit_landscape_pilot(self):
+        aid=self.submit(Fake());request=self.ledger.row(aid)['request']
+        self.entry['profile']['resolution_selector']={'aspect_ratio':'9:16 (Portrait Widescreen)','megapixels':2}
+        self.assertFalse(same_profile_route(self.entry['profile'],request))
+    def test_invalid_resolution_never_submits(self):
+        for value in ({'aspect_ratio':'9:16','megapixels':2},{'aspect_ratio':'9:16 (Portrait Widescreen)','megapixels':True},
+                      {'aspect_ratio':'9:16 (Portrait Widescreen)','megapixels':float('nan')},
+                      {'aspect_ratio':'9:16 (Portrait Widescreen)','megapixels':17},
+                      {'aspect_ratio':'9:16 (Portrait Widescreen)'},[],
+                      {'aspect_ratio':'9:16 (Portrait Widescreen)','megapixels':2,'nodeId':'arbitrary'}):
+            with self.subTest(value=value):
+                self.entry['profile']['resolution_selector']=value;fake=Fake()
+                with self.assertRaises(ValueError):self.submit(fake)
+                self.assertEqual(fake.submits,0)
     def test_timeout_is_unknown_and_never_resubmits_after_restart(self):
+        # Existing recovery contract remains unchanged by optional canvas settings.
         fake = Fake(TimeoutError('request may have been accepted'))
         aid = self.submit(fake)
         self.assertEqual(self.ledger.row(aid)['state'], 'SUBMISSION_UNKNOWN')
@@ -78,6 +131,21 @@ class RunnerTests(unittest.TestCase):
         self.ledger = Ledger(self.root / 'private' / 'tasks.sqlite', self.clock)
         self.assertIsNone(self.submit(fake))
         self.assertEqual(fake.submits, 1)
+    def test_portrait_without_selector_is_rejected_before_submit(self):
+        self.entry['source_contract']={'window':{'source_projection':{'display_canvas':{'width':720,'height':1280,'sample_aspect_ratio':'1'}}}}
+        fake=Fake()
+        with self.assertRaisesRegex(ValueError,'Portrait source'):self.submit(fake)
+        self.assertEqual(fake.submits,0)
+    def test_source_matching_portrait_selector_can_submit(self):
+        self.entry['source_contract']={'window':{'source_projection':{'display_canvas':{'width':720,'height':1280,'sample_aspect_ratio':'1'}}}}
+        self.entry['profile']['resolution_selector']={'aspect_ratio':'9:16 (Portrait Widescreen)','megapixels':2}
+        fake=Fake();self.assertIsNotNone(self.submit(fake));self.assertEqual(fake.submits,1)
+    def test_explicit_wrong_aspect_is_rejected_before_submit(self):
+        self.entry['source_contract']={'window':{'source_projection':{'display_canvas':{'width':720,'height':1280,'sample_aspect_ratio':'1'}}}}
+        self.entry['profile']['resolution_selector']={'aspect_ratio':'16:9 (Widescreen)','megapixels':2}
+        fake=Fake()
+        with self.assertRaisesRegex(ValueError,'differs'):self.submit(fake)
+        self.assertEqual(fake.submits,0)
     def test_http_500_is_also_uncertain(self):
         aid = self.submit(Fake(ApiFailure(500)))
         self.assertEqual(self.ledger.row(aid)['state'], 'SUBMISSION_UNKNOWN')

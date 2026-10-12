@@ -8,8 +8,10 @@ import argparse
 import hashlib
 import ipaddress
 import json
+import math
 import os
 from pathlib import Path
+from fractions import Fraction
 import random
 import sqlite3
 import subprocess
@@ -59,9 +61,50 @@ def same_profile_route(profile, private_request):
     body = request.get('body') or {}
     if profile['kind'] == 'legacy-ai-app':
         return (request['path'] == '/openapi/v2/run/ai-app/' + profile['app_id'] and
-                body.get('instanceType') == profile.get('instance_type', 'plus'))
+                body.get('instanceType') == profile.get('instance_type', 'plus') and
+                sorted((n['nodeId'],n['fieldName'],str(n['fieldValue'])) for n in body.get('nodeInfoList',[]) if n.get('nodeId') in ('115','214')) ==
+                sorted((n['nodeId'],n['fieldName'],str(n['fieldValue'])) for n in legacy_resolution_nodes(profile)))
     return (request['path'] == '/openapi/v2/minimax/hailuo-h3/multimodal-to-video' and
             body.get('resolution') == profile.get('resolution', '2K') and body.get('ratio') == profile.get('ratio', 'adaptive'))
+
+
+def legacy_resolution_nodes(profile):
+    """Explicit documented ResolutionSelector inputs; absent config preserves legacy requests."""
+    value=profile.get('resolution_selector')
+    if value is None:
+        return []
+    ratios={'1:1 (Square)','2:3 (Portrait Photo)','3:2 (Photo)','3:4 (Portrait Standard)',
+            '4:3 (Standard)','9:16 (Portrait Widescreen)','16:9 (Widescreen)','21:9 (Ultrawide)'}
+    if not isinstance(value,dict) or not {'aspect_ratio','megapixels'} <= set(value) or set(value)-{'aspect_ratio','megapixels','aspect_node_ids'}:
+        raise ValueError('Resolution selector needs explicit aspect_ratio and megapixels; optional aspect_node_ids')
+    ratio,mp=value['aspect_ratio'],value['megapixels']
+    if not isinstance(ratio,str) or ratio not in ratios:
+        raise ValueError('Unsupported documented ResolutionSelector aspect_ratio')
+    if type(mp) not in (int,float) or not math.isfinite(mp) or not 0.1<=mp<=16:
+        raise ValueError('ResolutionSelector megapixels must be finite and within 0.1..16')
+    ids=value.get('aspect_node_ids',['115'])
+    if (not isinstance(ids,list) or not ids or any(type(n) is not str or n not in ('115','214') for n in ids)
+        or len(set(ids))!=len(ids) or '115' not in ids):
+        raise ValueError('Aspect node IDs must be unique documented selectors including115')
+    if '214' in ids and profile.get('app_id')!='2107844752011010050':
+        raise ValueError('Selector214 is only documented for the single-image application')
+    return ([{'nodeId':n,'fieldName':'aspect_ratio','fieldValue':ratio} for n in sorted(ids)] +
+            [{'nodeId':'115','fieldName':'megapixels','fieldValue':format(mp,'g')}])
+
+
+def validate_legacy_canvas(entry):
+    legacy_resolution_nodes(entry['profile'])
+    canvas=(entry.get('source_contract') or {}).get('window',{}).get('source_projection',{}).get('display_canvas')
+    if not canvas or not canvas.get('width') or not canvas.get('height'):
+        return
+    ratio=Fraction(canvas['width'],canvas['height'])*Fraction(canvas.get('sample_aspect_ratio','1'))
+    selected=entry['profile'].get('resolution_selector')
+    if ratio<1 and not selected:
+        raise ValueError('Portrait source requires an explicit verified ResolutionSelector aspect; the legacy default may be landscape')
+    if selected:
+        w,h=map(int,selected['aspect_ratio'].split(' ',1)[0].split(':'))
+        if Fraction(w,h)!=ratio:
+            raise ValueError('Explicit legacy aspect differs from the source display canvas; select a source-matching backend or reviewed projection')
 
 
 def asset(project, rel):
@@ -376,6 +419,7 @@ def preflight(project, entry):
     p = entry['profile']
     text = asset(project, entry['prompt_path']).read_text(encoding='utf-8')
     if p['kind'] == 'legacy-ai-app':
+        validate_legacy_canvas(entry)
         if p['app_id'] not in ('2107844752011010050', '2107845954833907713'):
             raise ValueError('Unknown app requires a reviewed adapter/profile')
         expected = 1 if p['app_id'] == '2107844752011010050' else 2
@@ -431,6 +475,9 @@ class Runner:
             return None
         # Uploads do not reserve a cloud execution slot and are cached by bytes.
         kind = entry['profile']['kind']
+        if kind=='legacy-ai-app':
+            validate_legacy_canvas(entry)
+        resolution_nodes=legacy_resolution_nodes(entry['profile']) if kind=='legacy-ai-app' else []
         refs = [self.upload(asset(project, p), kind) for p in entry['reference_paths']]
         video = self.upload(asset(project, entry['video_path']), kind)
         prompt = asset(project, entry['prompt_path']).read_text(encoding='utf-8')
@@ -442,6 +489,7 @@ class Runner:
                      {'nodeId': '326', 'fieldName': 'value', 'fieldValue': str(entry['generation_frames'])}]
             if len(refs) == 2:
                 nodes.append({'nodeId': '139', 'fieldName': 'image', 'fieldValue': refs[1]['filename']})
+            nodes.extend(resolution_nodes)
             path = '/openapi/v2/run/ai-app/' + p['app_id']
             body = {'nodeInfoList': nodes, 'instanceType': p.get('instance_type', 'plus'), 'usePersonalQueue': False}
         else:

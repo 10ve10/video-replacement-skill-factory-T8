@@ -125,6 +125,11 @@
       "id": "bound-production-reuse",
       "status": "codex-orchestrated",
       "scope": "Reuse same-SHA measured source facts; resume known task IDs; retain current unchanged passed reviews; repair only failed windows and affected seams. New identities/outputs receive actual QA; no repeated factory research by default."
+    },
+    {
+      "id": "explicit-legacy-source-canvas",
+      "status": "implemented-offline-and-actual-portrait-direction-verified",
+      "scope": "Published single-image115+214 aspects/115MP, source DAR guard and immutable pilot route;11 offline regressions. Actual1088x1920/24fps/107frames confirmed. Exact grid normalization and identity/props still need review."
     }
   ]
 }

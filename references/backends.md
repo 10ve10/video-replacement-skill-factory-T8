@@ -23,3 +23,18 @@ ledger私有保存精确request/receipt/上传/result URL，公开status不含�
 SQLite账户scope合计3个SUBMITTING/UNKNOWN/QUEUED/RUNNING，旧工具未导入的外部任务不声称已纳管。421全账户至少60秒冷却、仍恢复已知任务；401/402/403/1913停新增；API/执行连续3失败停受影响路径；视觉无限、有失败帧与改动假设。resume用于已获继续授权或问题修正，历史不清除。
 
 用户允许满队列后等待恢复。尚未受理、没有taskId的明确415/421/429/1003/1010/1011提交拒绝才作为DEFERRED，账户至少60秒持久冷却后恢复提交，不计入三次执行失败，也不释放仍在云端执行的其他任务。上传或已知task查询遇到同类繁忙也等待，不增加技术失败计数。已知task查询即使status=FAILED，明确繁忙码仍保持原state/taskId/并发占位，保存回执、至少60秒后继续查询原ID；不得转DEFERRED后重POST。defer_submission拒绝处理已有taskId的记录。804/813表示任务运行中或已受理；有taskId沿用查询，无taskId保存为未知提交并对账，绝不作为“队列满”自动重POST。HTTP5xx、超时或无明确拒绝仍保留未知提交保护。[官方队列错误码](https://www.runninghub.cn/runninghub-api-doc-en/doc-8287467)
+
+
+## legacy画幅配置
+
+提交前只读检查当前应用公开的节点。2026-10-12单图应用2107844752011010050新公开两个ComfyUI `ResolutionSelector`的 `aspect_ratio`：115和214；115还公开 `megapixels`。两阶段都显式设置相同的源展示比例。例如720×1280、SAR1：
+
+```json
+"resolution_selector": {"aspect_ratio": "9:16 (Portrait Widescreen)", "megapixels": 2, "aspect_node_ids": ["115", "214"]}
+```
+
+`aspect_node_ids`省略时保持旧node115请求；214仅用于已查证的单图应用，不推定双图应用也有此节点。禁止任意节点、重复节点、非法比例和非有限/越界MP。源竖屏未配置或比例与源展示DAR不同会在付费提交前拦截。节点ID、画幅及MP共同绑定不可变请求和pilot路由；增加第二节点不继承旧单节点pilot通过。
+
+通过[官方只读应用示例](https://www.runninghub.ai/runninghub-api-doc-en/doc-8287469)读取实际公开字段、枚举与类型，先删Key再保存。节点定义可核对[ComfyUI官方源码](https://github.com/Comfy-Org/ComfyUI/blob/master/comfy_extras/nodes_resolution.py)，但源码中存在字段不代表应用已经公开或实际采用它。
+
+实际曾遇到竖屏源生成1920×1088横屏；未公开时发送node115比例也被忽略，两个候选均拒绝。新公开的115+214实际复测得到1088×1920竖屏、24fps、107帧，确认方向生效。分辨率网格使DAR偏离精确9:16约0.74%，还须单独核对小幅无裁切画幅修正。人物身份和额外道具未通过，所以不以比例成功宣称整段视觉通过。API受理不是画幅验收：确认真实输出展示比例、全画面构图、身份及动作后才扩批。横屏扩景不能靠裁切或大补边伪装成源机位；实际比例未生效时修应用，不重复原样提交。

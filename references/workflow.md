@@ -74,3 +74,6 @@ python <专属skill>/scripts/factory.py instantiate --skill <专属skill绝对�
 ```
 
 中性原槽位动作不变，填新job身份并继续生产/QA。同源复用模板，新剪辑/原bytes变动新模板。draft→ready在新revision升级，旧版保留；安装中断recover-install对账。ZIP只本地生成，不外发。
+
+
+legacy原片竖屏时，在首次prepare前按backends.md核应用实际ResolutionSelector节点，配置匹配源展示比例的resolution_selector。不能依赖图片宽高或“vertical”提示词切换云端工作流画幅。首窗实际画幅不符即拒绝，不扩批；整个源片说明不提前引入尚未进入当前窗口的道具，提示词按当前context可见状态编译。

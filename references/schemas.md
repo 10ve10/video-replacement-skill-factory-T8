@@ -59,3 +59,6 @@ plan.source_projection记录generation_to_source/source_to_generation、content/
 构建ready先对原制作run执行完整守卫，再复制中性analysis并清空自由文本review_notes；源事实、真实viewing_evidence保留，模板plan/manifest摘要绑定该中性副本，原制作合同不改。ZIP实例化边界以实际源SHA及大小确认内容，复制后绑定新run实际mtime；普通制作run仍严格校验原文件签名。ZIP解包造成的时间戳变化不能被当作源内容变化，同大小内容篡改仍须拒绝。
 
 安装用skills外staging、每文件SHA manifest及PREPARED/FOLDER_INSTALLED/REGISTERED journal；recover-install对账。draft→ready/analysis升级新revision保存旧版，不覆盖用户修改。ZIP相对成员/CRC/逐SHA检验，禁止symlink逸出、私有数据或半文件；包与当前技能字节一致。
+
+
+job.profile可选resolution_selector含aspect_ratio（官方ResolutionSelector完整枚举字符串）、megapixels（有限数0.1..16），以及可选aspect_node_ids（唯一已查证节点；默认115，当前单图新公开115与214一起设置）。legacy竖屏必须显式匹配source_projection.display_canvas的展示DAR；具体当前节点证据及尚待实际输出验证见backends.md。该参数进入profile/input_digest与不可变请求，不自动获得视觉通过。
