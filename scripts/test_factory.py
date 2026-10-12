@@ -5,6 +5,7 @@ import copy
 import hashlib
 import json
 import os
+import re
 import shutil
 import socket
 import subprocess
@@ -140,6 +141,35 @@ class FactoryIntegration(unittest.TestCase):
     def test_prompt_semantics_not_auto_passed(self):
         entry=factory.prepare(self.project,DEPS,SCALAR)['jobs'][0]
         self.assertEqual(entry['semantic_review']['status'],'pending')
+
+    def test_compiled_reference_provenance_and_local_role_order(self):
+        analysis=copy.deepcopy(self.analysis)
+        analysis['roles'].append({'slot':'B','label':'Second source role','appearances':[[0,8]]})
+        analysis['shots'][0].update(roles=['A','B'],description_en='{{A}} holds the left pose while {{B}} holds the right pose.')
+        job=copy.deepcopy(self.job)
+        job['references']['B']={'identity_en':'Distinct second portrait identity.'}
+        window=factory.default_plan(self.source,analysis,job)['windows'][0]
+        window['role_slots']=['B','A']
+        text,binding=factory.compile_prompt(self.source,analysis,job,window)
+        definitions=text.split('summary:',1)[0]
+        provenance=dict(re.findall(r'<Subject (\d+)> is the person represented by <Picture (\d+)>',definitions))
+        self.assertEqual(provenance,{'1':'1','2':'2'})
+        self.assertEqual(binding,[{'slot':'B','subject':1,'picture':1},{'slot':'A','subject':2,'picture':2}])
+        self.assertIn('<Subject 2> holds the left pose while <Subject 1> holds the right pose.',text)
+        self.assertEqual(set(re.findall(r'<Video (\d+)>',text)),set(re.findall(r'^<Video (\d+)>',definitions,re.MULTILINE)))
+        self.assertEqual(set(re.findall(r'<Subject (\d+)>',text)),set(provenance))
+        self.assertEqual(len(re.findall(r'^<Video 1>',definitions,re.MULTILINE)),1)
+
+    def test_face_only_source_definition_cannot_override_scope(self):
+        job=copy.deepcopy(self.job);job['replacement_mode']='face-only'
+        job['references']['A']['face_identity_en']='Narrow face with specified eyes.'
+        window=factory.default_plan(self.source,self.analysis,job)['windows'][0]
+        text,_=factory.compile_prompt(self.source,self.analysis,job,window)
+        self.assertNotIn('Green reference character',text)
+        definitions=text.split('summary:',1)[0]
+        self.assertIn('Source appearance follows the replacement scope below.',definitions)
+        self.assertIn('Preserve the source hairstyle, clothing, accessories, physique, neck and shoulder proportions.',text)
+        self.assertNotIn('Facial geometry and physique follow the supplied reference attributes',text)
 
     def test_inspect_candidate_creates_pending_actual_report_and_map(self):
         entry=self.queue()['jobs'][0]
@@ -852,8 +882,8 @@ class FactoryIntegration(unittest.TestCase):
         self.assertEqual(contract['identity_en_overrides'],overrides)
         prompt,bindings = factory.compile_prompt(source,analysis,job,first)
         self.assertEqual(bindings,[{'slot':'B','subject':1,'picture':1},{'slot':'A','subject':2,'picture':2}])
-        self.assertIn('<Subject 1>: Identity from <Picture 1>. B_WINDOW_ONLY_SINGLE_SEATED_IDENTITY',prompt)
-        self.assertIn('<Subject 2>: Identity from <Picture 2>. A_WINDOW_ONLY_COMPLETE_IDENTITY',prompt)
+        self.assertIn('<Subject 1> is the person represented by <Picture 1>. B_WINDOW_ONLY_SINGLE_SEATED_IDENTITY',prompt)
+        self.assertIn('<Subject 2> is the person represented by <Picture 2>. A_WINDOW_ONLY_COMPLETE_IDENTITY',prompt)
         self.assertNotIn('GLOBAL_IDENTITY',prompt)
         self.assertNotIn('BACK_FOREGROUND_RULE_FOR_OTHER_WINDOWS',prompt)
         for header in factory.HEADERS:self.assertEqual(prompt.count(header),1)

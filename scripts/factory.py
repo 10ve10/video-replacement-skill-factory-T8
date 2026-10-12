@@ -280,7 +280,10 @@ def compile_prompt(source, analysis, job, window):
         ref = job['references'][slot]
         identity = identity_text(overrides[slot] if overrides is not None else
                                  ref.get('face_identity_en' if mode == 'face-only' else 'identity_en', ''), slot)
-        identities.append(f'<Subject {local}>: Identity from <Picture {local}>. {identity}')
+        identities.append(f'<Subject {local}> is the person represented by <Picture {local}>. {identity}')
+    identities.append('<Video 1> supplies the original video to be edited: source performance, head and body orientation, '
+                      'camera trajectory, source timing, scene, physical objects and subtitle placement. '
+                      'Source appearance follows the replacement scope below.')
     subjects = ', '.join(f'<Subject {i}>' for i in binding.values())
     identity_contract = ('Only facial identity and facial geometry come from the supplied reference. '
                          'Preserve the source hairstyle, clothing, accessories, physique, neck and shoulder proportions. '
@@ -327,7 +330,9 @@ def compile_prompt(source, analysis, job, window):
                 event_time = timestamp((Fraction(source['video']['frames'][event['source_frame']]['time'])-origin)*time_scale+preroll)
                 detailed.append(f'At {event_time}, {replace_slots(event["description_en"])}')
     prompt = '\n'.join((HEADERS[0], '\n'.join(identities), HEADERS[1],
-                        f'[video editing + reference generation] Edit <Video 1> by replacing source roles with {subjects}.',
+                        f'[video editing + reference generation] Replace each bound source role in <Video 1> with its '
+                        f'corresponding identity {subjects}. The bound roles keep their source positions and performance; '
+                        'reference identities replace them throughout, with source appearance retained where required by the replacement scope.',
                         HEADERS[2], retention, HEADERS[3], '\n'.join(detailed),
                         HEADERS[4], analysis['soundscape_en'], HEADERS[5], analysis['music_en'])) + '\n'
     for header in HEADERS:

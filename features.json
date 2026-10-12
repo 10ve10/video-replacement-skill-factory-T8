@@ -9,7 +9,7 @@
     {
       "id": "prompt-compiler",
       "status": "implemented",
-      "scope": "Neutral role placeholders, local reference binding and six-section English rendering; no artificial word limit."
+      "scope": "Neutral role placeholders, local ordered Subject/Picture identity provenance, standaloneVideo1 performance/camera/time/scene authority and user replacement scope; six-section English rendering without artificial word limit. Two reference/scope regressions verified; output still requires actual QA."
     },
     {
       "id": "frame-ownership",

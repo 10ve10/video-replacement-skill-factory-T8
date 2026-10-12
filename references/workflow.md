@@ -35,7 +35,7 @@ python scripts/factory.py prepare --project <run> --deps <deps>
 
 显式VFR/旋转派生记录source_projection采样表、丢失/重复及时间量化。`--approve-projection`只在Codex查看派生参考并对源动作确认可接受后使用，独立于语义审核；不把恢复原PTS说成丢失信息可逆。手改长镜plan后用 `refresh-plan` 重建表再prepare。没有目标角色的空镜passthrough原片owner，不付费生成，成片仍全片QA。单/双人legacy按每窗实际身份数选择对应已证应用或明确profile_override。
 
-新case首窗queue pilot=true，先完成一份实际生产候选；生成文档参数不证明换角视觉。首窗技术+视觉过关后，job.profile.quality_evidence设case-verified并记具体证据，再prepare扩批。此QA元数据不改变提交digest，已有成功窗继续使用；实质输入/参数变动失效旧task/review，需要正确归档新revision。
+新case首窗queue pilot=true，先完成一份实际生产候选；生成文档参数不证明换角视觉。首窗技术+视觉过关后，job.profile.quality_evidence设case-verified并记具体证据，同时更新queue对应profile的QA字段。纯QA推进排除在生成digest之外，重算确认已有输入未变，再扩批。手修提示词或编译器升级后不要盲目prepare覆盖已通过的输入；未修改编译合同的正常run仍可prepare刷新。实质输入/参数变动失效旧task/review，正确归档对应revision。
 
 混合single/dual或其他profile route各自先一个pilot，总并发仍3；使用window.profile_override的路由，在该override更新质量证据，不能只更新全局job.profile。再次prepare相同prompt字节保留mtime，不因QA进度失效已审核版本。
 

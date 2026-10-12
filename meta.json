@@ -1,6 +1,6 @@
 {
   "name": "video-replacement-skill-factory",
-  "version": "1.2.13",
+  "version": "1.2.14",
   "created_at": "2026-10-11",
   "purpose": "Deliver a character replacement film and a standalone reusable skill for each new source video.",
   "schema_version": 1,
@@ -36,14 +36,14 @@
     "cloud_generation_performed": true,
     "cloud_visual_quality_verified": true,
     "offline_tests": "scripts/test_factory.py and scripts/test_runner.py",
-    "offline_test_count": 110,
-    "media_and_template_tests": 63,
+    "offline_test_count": 112,
+    "media_and_template_tests": 65,
     "runner_tests": 47,
     "independent_forward_test_completed": true,
     "independent_defect_rechecks_passed": 2,
     "post_update_template_checks": 3,
     "preroll_preserves_source_owners": true,
-    "production_trial_status": "Historical12.25second photographic film and portable ready skill verified separately. Current1.2.13 adds explicit multi-selector controls:47runner+63media/template tests passed; new portrait pilot remains pending actual review.",
+    "production_trial_status": "Historical12.25second photographic fullfilm/portable ready skill verified separately. Current portrait source first104owned frames passed actual native/action/prop/subtitle review and minimal9:16 envelope verified by complete107contentRGB/PTS equality; whole new film remains in production. Current compiler reference-provenance tests65pass; runner47previouslypassed and unchanged.",
     "source_time_scale_verified_offline": true,
     "cloud_pilot_visual_verified": true,
     "automatic_download_recovery_tests": 8,
@@ -53,7 +53,7 @@
     "window_identity_override_isolation_verified": true,
     "final_report_contract_verified_offline": true,
     "known_task_failed_busy_keeps_original_id_verified_offline": true,
-    "current_release_factory_tests": 63,
+    "current_release_factory_tests": 65,
     "chinese_display_name_cli_zip_subprocess_verified": true,
     "cloud_visual_quality_scope": {
       "source_sha256": "75f4a28f357bdac5dc224141eefd857a95d5852cc4fca52ad28efac0046231b1",
@@ -75,6 +75,24 @@
         "fps": "24",
         "frames": 107
       }
+    },
+    "explicit_source_and_identity_reference_binding_verified_offline": true,
+    "current_portrait_pilot_review": {
+      "owned_frames": 104,
+      "fps": "24",
+      "seconds": "104/24",
+      "actual_cloud_canvas": [
+        1088,
+        1920
+      ],
+      "normalized_canvas": [
+        1089,
+        1936
+      ],
+      "native_and_actual_playback_review": "passed-first-window-only",
+      "complete_content_rgb_and_pts_proof_frames": 107,
+      "whole_new_film": "pending",
+      "scope": "Current production pilot with explicit source reference, user-scoped target identity dossier and positive current empty-surface prose. No universal model quality claim."
     }
   },
   "source_of_methods": "r2va-character-replacement; verified local production repairs; official MiniMax/RunningHub reference contracts",
@@ -110,7 +128,8 @@
     "Reuse known source analysis and bound successful-window reviews; resume known tasks after restart; diagnose input, source phase, guide, clock and permissions before targeted retries. Initial20round factory research is not repeated by default.",
     "Dedicated GitHub repository and continuing factory-only publication route; README registration/social links, forbidden ROADMAP/credentials, manifest whitelist and outgoing-commit guard recorded.",
     "Explicit documented legacy ResolutionSelector aspect/MP, request and route binding, portrait/mismatch guard before paid submission; actual landscape failures retained; new published115+214 portrait direction confirmed while identity/prop QA failed.",
-    "Current live single-image app publishes ResolutionSelector115 and214; explicitly set both aspects, bind node IDs to pilot route, reject unsupported/duplicate nodes. Previous unpublished115 aspect was ignored in actual output; actual portrait direction confirmed; identity/prop QA still failed."
+    "Current live single-image app publishes ResolutionSelector115 and214; explicitly set both aspects, bind node IDs to pilot route, reject unsupported/duplicate nodes. Previous unpublished115 aspect was ignored in actual output; actual portrait direction confirmed; identity/prop QA still failed.",
+    "Explicit standalone Video1 source performance/camera/time/scene definition and Subject/Picture provenance; replacement summary keeps source roles/positions and obeys face-only scope. Two meaningful local-order/scope regressions. Positive current empty-prop state plus effective identity clauses passed one portrait window; frozen custom prompts are not blindly overwritten on QA promotion."
   ],
   "publishing": {
     "repository": "https://github.com/T8mars/video-replacement-skill-factory-T8",
