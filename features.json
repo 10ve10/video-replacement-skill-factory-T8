@@ -130,6 +130,11 @@
       "id": "explicit-legacy-source-canvas",
       "status": "implemented-offline-and-actual-portrait-direction-verified",
       "scope": "Published single-image115+214 aspects/115MP, source DAR guard and immutable pilot route;11 offline regressions. Actual1088x1920/24fps/107frames confirmed. Exact grid normalization and identity/props still need review."
+    },
+    {
+      "id": "standing-crop-timing-and-text-repair",
+      "status": "codex-orchestrated",
+      "scope": "Observed standing-close-crop repair and separate phase timing review; facial reappearance guide and clean-caption hypotheses require actual full review. Serialized current input/queue maintenance and corrected neutral source-template events. No automatic quality guarantee."
     }
   ]
 }

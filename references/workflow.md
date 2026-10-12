@@ -77,3 +77,8 @@ python <专属skill>/scripts/factory.py instantiate --skill <专属skill绝对�
 
 
 legacy原片竖屏时，在首次prepare前按backends.md核应用实际ResolutionSelector节点，配置匹配源展示比例的resolution_selector。不能依赖图片宽高或“vertical”提示词切换云端工作流画幅。首窗实际画幅不符即拒绝，不扩批；整个源片说明不提前引入尚未进入当前窗口的道具，提示词按当前context可见状态编译。
+
+
+修复prompt/引用及queue签名时，与本机唯一调度器串行操作：暂停本机新增调度，等正在执行的tick完成，再以完整审稿后的prompt、签名、digest和queue一致版本更新；恢复时先核全部当前输入和已知任务。避免调度器在文件与queue更新之间读取旧digest并安全停机。已经受理的任务只恢复原ID，不因这种本机中间状态重新POST；这项维护暂停不要求用户重新授权。
+
+首期新证据修正了源事件事实时，在专属模板中保存纠正后的中性源事件与相邻帧依据，并更新对应analysis/plan摘要及包manifest。不要改动仍有云端任务的冻结制作合同；源事实修订与当前候选生成历史分别保留。新包实际解包、独立instantiate检查后，下次使用纠正后的源事实。
