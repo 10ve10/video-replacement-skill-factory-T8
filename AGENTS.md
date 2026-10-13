@@ -2,7 +2,7 @@
 
 以下规则用于工厂源码维护和 GitHub 发布；生成视频时无需增加发布步骤。
 
-本仓库仅维护 `video-replacement-skill-factory`，唯一发布目标是 `https://github.com/T8mars/video-replacement-skill-factory-T8`。后续该工厂的更新继续同步到这里；其他技能、`r2va-video-*` 专属技能、制作项目和媒体不得混入。
+本仓库仅维护 `video-replacement-skill-factory`，唯一发布目标是 `https://github.com/10ve10/video-replacement-skill-factory-T8`。原始上游 `https://github.com/T8mars/video-replacement-skill-factory-T8` 仅作为参考/可选同步来源，未经用户明确要求不得推送到上游。其他技能、`r2va-video-*` 专属技能、制作项目和媒体不得混入。
 
 修改前先读 SKILL.md、meta.json、features.json、manifest.json、publish-policy.json、相关配置、源码和测试。README 的账号入口和作者资源链接按用户提供的内容维护。
 
