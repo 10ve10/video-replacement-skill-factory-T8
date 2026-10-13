@@ -10,9 +10,9 @@
 
 **技能标识：** `video-replacement-skill-factory`  
 **当前版本：** `1.2.15`  
-**专属维护仓库：** [T8mars/video-replacement-skill-factory-T8](https://github.com/T8mars/video-replacement-skill-factory-T8)
+**专属维护仓库：** [10ve10/video-replacement-skill-factory-T8](https://github.com/10ve10/video-replacement-skill-factory-T8) · 原始上游：[T8mars/video-replacement-skill-factory-T8](https://github.com/T8mars/video-replacement-skill-factory-T8)
 
-给 Codex 一个原视频和人物参考图，工厂会分析原片、替换人物、检查并修复画面、组装保留原音轨的成片，再为该原视频创建并安装一个独立、可复用的专属 SKILL。下次使用同一原片，只需更换人物参考图。
+给支持该技能的 Agent（Codex 或 Hermes）一个原视频和人物参考图，工厂会分析原片、替换人物、检查并修复画面、组装保留原音轨的成片，再为该原视频创建并安装一个独立、可复用的专属 SKILL。下次使用同一原片，只需更换人物参考图。
 
 ## 每次交付
 
@@ -22,6 +22,12 @@
 - 中文内容名，写入显示名、搜索描述、标题与安装包；内部标识使用 `r2va-video-<原SHA前12位>`。
 
 本仓库发布的是**工厂本身**。每次生成的 `r2va-video-*`、原视频、人物图和成片保存在用户的本地制作项目中。
+
+## Hermes Agent 支持
+
+本仓库包含 Hermes 专用入口说明：[Hermes 安装与使用指南](hermes/README.md) 和 [Hermes SKILL.md](hermes/SKILL.md)。底层媒体处理与 RunningHub 脚本仍复用仓库根目录实现；Hermes 适配层不代表已经支持新的云端模型或后端。Hermes 运行前仍需安装 Python 依赖、ffmpeg/ffprobe，并按原有文档安全配置 RunningHub 凭据。
+
+Hermes 的技能目录和具体加载行为可能随安装版本变化；请以本机 Hermes 文档为准。当前指南按 `~/.hermes/skills/video-replacement-skill-factory/SKILL.md` 提供安装示例，并保留完整仓库 checkout 供技能调用底层脚本与资源。
 
 ## 安装与运行环境
 
