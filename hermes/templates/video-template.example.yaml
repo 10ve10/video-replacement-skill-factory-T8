@@ -1,0 +1,38 @@
+schema_version: 1
+template:
+  id: "video-template-<source-sha12>"
+  display_name: "Descriptive source-scene name"
+  status: draft # draft | ready
+source:
+  sha256: "<full-source-sha256>"
+  duration_seconds: null
+  frame_rate: null
+  timebase: null
+  width: null
+  height: null
+  display_aspect_ratio: null
+  rotation_degrees: 0
+  audio_streams: []
+character_slots:
+  - id: slot_01
+    neutral_role: "main_subject"
+    screen_position: unknown
+    appearance_from_source: []
+    actions: []
+shots: []
+audio_policy:
+  preserve_all_source_audio: true
+generation:
+  backend_profile_id: null
+  model_id: null
+  validated_for_this_source: false
+quality_control:
+  technical_decode_passed: false
+  visual_review_passed: false
+  reviewed_windows: []
+  known_risks: []
+repair_notes: []
+provenance:
+  created_at: null
+  source_template_version: 1
+  notes: "Keep target identity mapping, reference images, credentials, signed URLs, candidates, and renders in a separate production run."
